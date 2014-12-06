@@ -1,7 +1,9 @@
 {
 	["name"]="Avatar",
 	["hp"]=10,
+	["maxHp"]=10,
 	["mana"]=10,
+	["maxMana"]=10,
 	["int"]=10,
 	["dex"]=10,
 	["str"]=10,

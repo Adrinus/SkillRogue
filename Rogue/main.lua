@@ -19,6 +19,7 @@ function love.load()
 	xOff = 0
 	yOff = 0
 	mobs = {}
+	interact = "examine"
 end
 
 function love.update(dt)
@@ -51,20 +52,17 @@ function love.keypressed(key,isrepeat)
 				currentY = currentY - 1
 				yOff = currentY
 			end
-		end
-		if key == "a" then
+		elseif key == "a" then
 			if currentX > 1 then
 				currentX = currentX - 1
 				xOff = currentX
 			end
-		end
-		if key == "s" then
+		elseif key == "s" then
 			if currentY < (winHeight-(((winHeight-21)/14)-1)) then
 				currentY = currentY + 1
 				yOff = currentY
 			end
-		end
-		if key == "d" then
+		elseif key == "d" then
 			if currentX < (winWidth-(((winWidth-28)/14)-1)) then
 				currentX = currentX + 1
 				xOff = currentX

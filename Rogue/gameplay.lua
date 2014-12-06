@@ -39,9 +39,11 @@ function startup()
 	placeMobs(mobTypes.monsters.low.slime,10000)
 	placeMobs(mobTypes.animals.low.rat,5000)
 	status = "Adding Decorations..."
-	addDecor(40000)
+	addDecor(80000)
 	status = "Inventing Magic..."
 	makeMagic()
+	status = "Placing Items..."
+	placeItems(10000,itemTypes.weapons.onehand.swords.shortSword)
 	screen = "main"
 	popup = 0,0,0,0,{255,255,255}
 end
@@ -88,6 +90,14 @@ end
 function getTerrain(x,y)
 	local terry = terrain[x][y]
 	return terry
+end
+
+function getItem(x,y)
+	local item = items[x][y]
+		if item == nil then
+			return nil
+		end
+	return item
 end
 
 function fillWorld()
@@ -167,6 +177,13 @@ function getMobTc(x,y)
 	return R,G,B
 end
 
+function getItemTc(x,y)
+	local R = items[x][y].tc[1]
+	local G = items[x][y].tc[2]
+	local B = items[x][y].tc[3]
+	return R,G,B
+end
+
 function isDead(x,y)
 	if mobs[x][y].hp <= 0 then
 		return true
@@ -203,8 +220,38 @@ function addDecor(num)
 		end
 		if string.match(terry.name,"floor") then
 			if string.match(terry.name,"Dirt") then
-				terry.gfx = "~"
+					terry.gfx = "~"
 			end
+		end
+	end
+end
+
+function placeItems(num,itemType)
+	math.randomseed(os.time())
+	for i = 1,num do
+		local x = math.random(1024)
+		local y = math.random(1024)
+		local item = getItem(x,y)
+		if item == nil and terrain[x][y].pass then
+			items[x][y] = {}
+			items[x][y].name = itemType.name or ""
+			items[x][y].weight = itemType.weight or 0
+			items[x][y].desc = itemType.desc or ""
+			items[x][y].dmg = itemType.dmg or {0,0}
+			items[x][y].rng = itemType.rng or 0
+			items[x][y].accMod = itemType.accMod or 0
+			items[x][y].durability = itemType.durability or 100
+			items[x][y].prefix = itemType.prefix or ""
+			items[x][y].suffix = itemType.suffix or ""
+			items[x][y].tc = itemType.tc or {255,255,255}
+			items[x][y].gfx = itemType.gfx or "?"
+			items[x][y].pos = {x,y}
+			items[x][y].ac = itemType.ac or 0
+			items[x][y].slots = itemType.slots or 0
+			items[x][y].effect = itemType.effect or "none"
+			items[x][y].magnitude = itemType.magnitude or 0
+			items[x][y].pages = itemType.pages or nil
+			items[x][y].questID = itemType.questID or nil
 		end
 	end
 end

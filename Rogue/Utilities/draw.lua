@@ -13,6 +13,11 @@ function drawWorld()
 				love.graphics.setColor(getMobTc(x,y))
 				love.graphics.print(gfx,i,j)
 			end
+			if getItem(x,y) ~= nil then
+				local gfx = items[x][y].gfx
+				love.graphics.setColor(getItemTc(x,y))
+				love.graphics.print(gfx,i,j)
+			end
 		end
 	end
 end
