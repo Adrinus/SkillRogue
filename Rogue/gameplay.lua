@@ -10,6 +10,10 @@ function loadTypes()
 	local contents, size = love.filesystem.read( "Resources/terrain.lua", all )
 	terrainTypes = {}
 	terrainTypes = unserialize(contents)
+	
+	local contents, size = love.filesystem.read( "Resources/player.lua", all )
+	player = {}
+	player = unserialize(contents)
 end
 
 function getMob(x,y)
