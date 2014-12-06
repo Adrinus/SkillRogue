@@ -7,7 +7,6 @@ require("Utilities.draw")
 -- Beginning of LOVE2D Structure
 
 function love.load()
-	terrains = 0
 	love.window.setTitle("Rogue")
 	love.graphics.setBackgroundColor(0,0,0)
 	desktopWidth, desktopHeight = love.window.getDesktopDimensions(1)
@@ -17,22 +16,17 @@ function love.load()
 	animTick = 0
 	ticks = 0
 	tps = 0
-	xOff = 135
-	yOff = 135
-	mobList = {}
-	terrainList = {}
-	itemList = {}
+	xOff = 512
+	yOff = 512
 	screen = "main"
+	playerName = "Avatar"
+	currentX = 512
+	currentY = 512
 	initCoords()
-	generateTerrainTypes()
+	loadTypes()
 	fillWorld()
 	addTrees(30000)
 	growTrees(5)
-	playerName = "Avatar"
-	generateMobTypes()
-	generateItemTypes()
-	currentX = 135
-	currentY = 135
 	placeMobs(mobTypes.monsters.low.slime,10000)
 	placeMobs(mobTypes.animals.low.rat,5000)
 	addDecor(40000)

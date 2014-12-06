@@ -1,18 +1,13 @@
--- Game Functions
-function generateMobTypes()
-	contents, size = love.filesystem.read( "Resources/mobs.lua", all )
+function loadTypes()
+	local contents, size = love.filesystem.read( "Resources/mobs.lua", all )
 	mobTypes = {}
 	mobTypes = unserialize(contents)
-end
-
-function generateItemTypes()
-	contents, size = love.filesystem.read( "Resources/items.lua", all )
+	
+	local contents, size = love.filesystem.read( "Resources/items.lua", all )
 	itemTypes = {}
 	itemTypes = unserialize(contents)
-end
-
-function generateTerrainTypes()
-	contents, size = love.filesystem.read( "Resources/terrain.lua", all )
+	
+	local contents, size = love.filesystem.read( "Resources/terrain.lua", all )
 	terrainTypes = {}
 	terrainTypes = unserialize(contents)
 end
