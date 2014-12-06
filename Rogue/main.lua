@@ -1,6 +1,7 @@
 --Rogue by Steve Price McKibbon Jr. aka Adrinus or pricemac
 
 require("gameplay")
+require("Resources.magic")
 require("Utilities.util")
 require("Utilities.draw")
 
@@ -66,7 +67,7 @@ function love.keypressed(key,isrepeat)
 	end
 	if screen == "splash" then
 		if key == "n" then
-			screen = "main"
+			screen = "loading"
 			startup()
 		end
 	end
@@ -80,9 +81,12 @@ function love.draw()
 		drawWorld()
 		drawHud()
 	end
+	if screen == "loading" then
+		drawStatus()
+	end
 	love.graphics.print(tps,winWidth-20,1)
 end
 
 function love.quit()
-	
+	output(debugOut(spells))
 end

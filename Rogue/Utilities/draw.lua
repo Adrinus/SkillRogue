@@ -17,6 +17,11 @@ function drawWorld()
 	end
 end
 
+function drawStatus()
+	love.graphics.setColor(220,220,220,255)
+	love.graphics.print(status,(winWidth/2)-80,(winHeight/2)-50)
+end
+
 function drawHud()
 	love.graphics.setColor(50,50,60,255)
 	love.graphics.rectangle("fill",0,0,winWidth,27)

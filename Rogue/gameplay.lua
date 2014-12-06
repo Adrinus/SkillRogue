@@ -21,14 +21,24 @@ function startup()
 	yOff = 512
 	currentX = 512
 	currentY = 512
+	status = "Initializing Coordinate System..."
 	initCoords()
+	status = "Loading Resources..."
 	loadTypes()
+	status = "Generating Terrain..."
 	fillWorld()
+	status = "Seeding Trees..."
 	addTrees(30000)
+	status = "Simulated Growth Algorithm..."
 	growTrees(5)
+	status = "Placing Mobs..."
 	placeMobs(mobTypes.monsters.low.slime,10000)
 	placeMobs(mobTypes.animals.low.rat,5000)
+	status = "Adding Decorations..."
 	addDecor(40000)
+	status = "Inventing Magic..."
+	makeMagic()
+	screen = "main"
 end
 
 function getMob(x,y)
