@@ -42,7 +42,6 @@ function placeMobs(mobType,amount)
 end
 
 function setTerrainType(x,y,terrainType)
-	terrains = terrains + 1
 	terrain[x][y] = {}
 	terrain[x][y].gfx = terrainType.gfx
 	terrain[x][y].bg = terrainType.bg
