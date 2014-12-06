@@ -8,7 +8,7 @@ function drawWorld()
 			love.graphics.rectangle("fill",i,j,14,14)
 			love.graphics.setColor(getTerrainTc(x,y))
 			love.graphics.print(terry.gfx,i,j)
-			if mobs[x][y] ~= nil then
+			if getMob(x,y) ~= nil then
 				local gfx = mobs[x][y].gfx
 				love.graphics.setColor(getMobTc(x,y))
 				love.graphics.print(gfx,i,j)
@@ -42,4 +42,19 @@ function drawSplash()
 	love.graphics.print("N",(winWidth/2)-50,(winHeight/2)-50)
 	love.graphics.setColor(200,200,200,255)
 	love.graphics.print("ew Game",(winWidth/2)-40,(winHeight/2)-50)
+end
+
+function getRGB(bgtc)
+	local R = 0
+	local G = 0
+	local B = 0
+	R = bgtc[1]
+	G = bgtc[2]
+	B = bgtc[3]
+	return R,G,B
+end
+
+function drawPopup(x,y,w,h,bg)
+	love.graphics.setColor(getRGB(bg))
+	love.graphics.rectangle("fill",x,y,w,h)
 end

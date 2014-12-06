@@ -14,6 +14,10 @@ function loadTypes()
 	local contents, size = love.filesystem.read( "Resources/player.lua", all )
 	player = {}
 	player = unserialize(contents)
+	
+	local contents, size = love.filesystem.read( "Resources/spells.lua", all )
+	spells = {}
+	spells = unserialize(contents)
 end
 
 function startup()
@@ -39,11 +43,12 @@ function startup()
 	status = "Inventing Magic..."
 	makeMagic()
 	screen = "main"
+	popup = 0,0,0,0,{255,255,255}
 end
 
 function getMob(x,y)
 	local mob = mobs[x][y]
-	if mob.hp == nil then
+	if mob == nil then
 		return nil
 	end
 	return mobs[x][y]
@@ -162,11 +167,33 @@ function getMobTc(x,y)
 	return R,G,B
 end
 
+function isDead(x,y)
+	if mobs[x][y].hp <= 0 then
+		return true
+	else
+		return false
+	end
+end
+
+function update()
+	for i = 1,(winWidth-28)/14 do
+		for j = 1,(winHeight-56)/14 do
+			local x = (i-1)+xOff
+			local y = (j-1)+yOff
+			if getMob(x,y) ~= nil then
+				if isDead(x,y) then
+					mobs[x][y] = nil
+				end
+			end
+		end
+	end
+end
+
 function addDecor(num)
 	for i = 1,num do
 		local x = math.random(1024)
 		local y = math.random(1024)
-		local terry = terrain[x][y]
+		local terry = getTerrain(x,y)
 		if string.match(terry.name,"wall") then
 			if string.match(terry.name,"Forest") then	
 				terry.gfx = "^"

@@ -16,6 +16,9 @@ function love.load()
 	ticks = 0
 	animTick = 0
 	tps = 0
+	xOff = 0
+	yOff = 0
+	mobs = {}
 end
 
 function love.update(dt)
@@ -26,6 +29,9 @@ function love.update(dt)
 		tick = tick - 1
 		tps = ticks
 		ticks = 0
+		if screen == "main" then
+			update()
+		end
 	end
 	if animTick < 2 then
 		animTick = animTick + dt
@@ -84,9 +90,12 @@ function love.draw()
 	if screen == "loading" then
 		drawStatus()
 	end
+	if screen == "popup" then
+		drawPopup(popup)
+	end
 	love.graphics.print(tps,winWidth-20,1)
 end
 
 function love.quit()
-	output(debugOut(spells))
+	
 end

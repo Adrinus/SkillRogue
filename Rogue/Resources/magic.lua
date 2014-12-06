@@ -24,7 +24,6 @@ function makeMagic()
 			table.insert(syllables,combo)
 		end
 	end
-	loadSpells()
 	for k = 1,#spells do
 		while spells[k].words == "" do
 			local word = makeWord()
@@ -49,15 +48,4 @@ function makeWord()
 		word = word ..syllables[syl]
 	end
 	return word
-end
-
-function loadSpells()
-	local contents, size = love.filesystem.read( "Resources/spells.lua", all )
-	spells = {}
-	spells = unserialize(contents)
-end
-
-function debugOut(tab)
-	local data = serialize(tab)
-	return data
 end
