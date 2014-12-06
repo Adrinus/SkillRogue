@@ -33,8 +33,8 @@ function love.load()
 	generateItemTypes()
 	currentX = 135
 	currentY = 135
-	placeMobs(mobTypes.monsters.slimes.small,10000)
-	placeMobs(mobTypes.animals.deer,5000)
+	placeMobs(mobTypes.monsters.low.slime,10000)
+	placeMobs(mobTypes.animals.low.rat,5000)
 	addDecor(40000)
 end
 
