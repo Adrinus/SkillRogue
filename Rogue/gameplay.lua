@@ -16,6 +16,21 @@ function loadTypes()
 	player = unserialize(contents)
 end
 
+function startup()
+	xOff = 512
+	yOff = 512
+	currentX = 512
+	currentY = 512
+	initCoords()
+	loadTypes()
+	fillWorld()
+	addTrees(30000)
+	growTrees(5)
+	placeMobs(mobTypes.monsters.low.slime,10000)
+	placeMobs(mobTypes.animals.low.rat,5000)
+	addDecor(40000)
+end
+
 function getMob(x,y)
 	local mob = mobs[x][y]
 	if mob.hp == nil then

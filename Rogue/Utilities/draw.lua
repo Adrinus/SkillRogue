@@ -31,3 +31,10 @@ function drawHud()
 	love.graphics.rectangle("line",(winWidth-14),28,13,screenBottom-28)
 	love.graphics.rectangle("line",(winWidth-14)+4,28,5,screenBottom-28)
 end
+
+function drawSplash()
+	love.graphics.setColor(200,50,50,255)
+	love.graphics.print("N",(winWidth/2)-50,(winHeight/2)-50)
+	love.graphics.setColor(200,200,200,255)
+	love.graphics.print("ew Game",(winWidth/2)-40,(winHeight/2)-50)
+end
