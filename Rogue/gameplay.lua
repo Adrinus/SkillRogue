@@ -30,7 +30,7 @@ function startup()
 	status = "Loading Resources..."
 	loadTypes()
 	status = "Generating Terrain..."
-	fillWorld()
+	--[[fillWorld()
 	status = "Seeding Trees..."
 	addTrees(30000)
 	status = "Simulated Growth Algorithm..."
@@ -38,7 +38,10 @@ function startup()
 	status = "Placing Mobs..."
 	placeMobs(mobTypes.monsters.low.slime,10000)
 	placeMobs(mobTypes.animals.low.rat,5000)
-	status = "Adding Decorations..."
+	status = "Adding Decorations..."]]--
+	createWorld()
+	placeMobs(mobTypes.monsters.low.slime,10000)
+	placeMobs(mobTypes.animals.low.rat,5000)
 	addDecor(80000)
 	status = "Inventing Magic..."
 	makeMagic()
@@ -71,7 +74,7 @@ function placeMobs(mobType,amount)
 		j = math.random(1024)
 		k = math.random(1024)
 		local terry = terrain[j][k]
-		if terry.pass == true and mobs[j][k] == nil then
+		if terry.pass == true and mobs[j][k] == nil and terry.name ~= "Cobble floor" then
 			createMob(j,k,mobType)
 		end
 	end
@@ -206,6 +209,133 @@ function update()
 	end
 end
 
+function distance(x,y,i,j)
+	local dist = math.sqrt(((x-i)^2)+((y-j)^2))
+	return dist
+end
+
+function createWorld()
+	for i = 0,1024 do
+		for j = 0,1024 do
+			setTerrainType(i,j,terrainTypes.floors.dirt)
+		end
+	end
+	placeTown()
+	placeCave()
+	--placeDirt()
+	growSeeds()
+	placeWalls()
+	growWalls()
+end
+
+function placeTown()
+	setTerrainType(512,512,terrainTypes.floors.cobble)
+	townX = 512
+	townY = 512
+end
+
+function placeCave()
+	caveX = 0
+	caveY = 0
+	local placed = 0
+	while placed < 20 do
+		local x = math.random(50,974)
+		local y = math.random(50,974)
+		if distance(x,y,townX,townY) > 100 then
+			setTerrainType(x,y,terrainTypes.floors.rock)
+			placed = placed + 1
+			caveX = x
+			caveY = y
+		end
+	end
+end
+
+function placeDirt()
+	local placed = 0
+	while placed < 20 do
+		local x = math.random(20,1004)
+		local y = math.random(20,1004)
+		if distance(x,y,townX,townY) > 100 and distance(x,y,caveX,caveY) > 100 then
+			setTerrainType(x,y,terrainTypes.floors.water)
+			placed = placed + 1
+		end
+	end
+end
+
+function growSeeds()
+	for i = 1,30 do
+		for j = 19,1003 do
+			for k = 19,1003 do
+				local terry = getTerrain(j,k)
+				if string.match(terry.name,"floor") or string.match(terry.name,"Water") then
+					local dir = math.random(4)
+					local x = j
+					local y = k
+					if dir == 1 then
+						x = x + 1
+					elseif dir == 2 then
+						x = x - 1
+					elseif dir == 3 then
+						y = y + 1
+					elseif dir == 4 then
+						y = y - 1
+					end
+					if string.match(terry.name,"Rock") then
+						setTerrainType(x,y,terrainTypes.floors.rock)
+					elseif string.match(terry.name,"Cobble") then
+						setTerrainType(x,y,terrainTypes.floors.cobble)
+					end
+				end
+			end
+		end
+	end
+end
+
+function placeWalls()
+	math.randomseed(os.time())
+	for i = 1,10000 do
+		local x = math.random(19,1003)
+		local y = math.random(19,1003)
+		local terry = getTerrain(x,y)
+		if terry.name == "Cobble floor" then
+			setTerrainType(x,y,terrainTypes.walls.wood)
+		elseif terry.name == "Dirt floor" then
+			setTerrainType(x,y,terrainTypes.walls.tree)
+		elseif terry.name == "Rock floor" then
+			setTerrainType(x,y,terrainTypes.walls.rock)
+		end
+	end
+end
+
+function growWalls()
+	for i = 1,5 do
+		for j = 19,1003 do
+			for k = 19,1003 do
+				local terry = getTerrain(j,k)
+				local dir = math.random(4)
+				local x = j
+				local y = k
+				if dir == 1 then
+					x = x + 1
+				elseif dir == 2 then
+					x = x - 1
+				elseif dir == 3 then
+					y = y + 1
+				elseif dir == 4 then
+					y = y - 1
+				end
+				if terry.name == "Wooden wall" then
+					setTerrainType(x,y,terrainTypes.walls.wood)
+				elseif terry.name == "Forest wall" then
+					setTerrainType(x,y,terrainTypes.walls.tree)
+				elseif terry.name == "Rock wall" then
+					setTerrainType(x,y,terrainTypes.walls.rock)
+				end	
+			end
+		end
+	end
+end
+
 function addDecor(num)
 	for i = 1,num do
 		local x = math.random(1024)
@@ -232,7 +362,7 @@ function placeItems(num,itemType)
 		local x = math.random(1024)
 		local y = math.random(1024)
 		local item = getItem(x,y)
-		if item == nil and terrain[x][y].pass then
+		if item == nil and terrain[x][y].pass and terrain[x][y].name ~= "Cobble floor" then
 			items[x][y] = {}
 			items[x][y].name = itemType.name or ""
 			items[x][y].weight = itemType.weight or 0
