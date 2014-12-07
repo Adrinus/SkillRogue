@@ -7,6 +7,7 @@ require("Utilities.draw")
 
 function love.load()
 	love.window.setTitle("Rogue")
+	--love.graphics.setFont(love.graphics.newFont( "Resources/arialbd.ttf", 12 ))
 	love.graphics.setBackgroundColor(0,0,0)
 	desktopWidth, desktopHeight = love.window.getDesktopDimensions(1)
 	love.window.setMode((math.floor(desktopWidth/14)*14)-14,(math.floor((desktopHeight-60)/14)*14)-14)
@@ -92,7 +93,7 @@ function love.mousepressed(x,y,key)
 						setTerrainType(tileX,tileY,terrainTypes.floors.cobble)
 					elseif terry.name == "Rock wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.rock)
-					elseif terry.name == "Tree wall" then
+					elseif terry.name == "Forest wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.dirt)
 					end
 				end
