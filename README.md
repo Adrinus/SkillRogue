@@ -7,7 +7,7 @@ For a guide on compiling the source code: https://love2d.org/wiki/Getting_Starte
 
 When signifigant progress has been made, or when an important change has been made, a release will be compiled for general Windows consumption.
 
-Release 0.0 https://github.com/Adrinus/SkillRogue/releases/tag/0.0
+Releases- https://github.com/Adrinus/SkillRogue/releases
 
 Project Goal
 ============
