@@ -29,24 +29,7 @@ function startup()
 	initCoords()
 	status = "Loading Resources..."
 	loadTypes()
-	status = "Generating Terrain..."
-	--[[fillWorld()
-	status = "Seeding Trees..."
-	addTrees(30000)
-	status = "Simulated Growth Algorithm..."
-	growTrees(5)
-	status = "Placing Mobs..."
-	placeMobs(mobTypes.monsters.low.slime,10000)
-	placeMobs(mobTypes.animals.low.rat,5000)
-	status = "Adding Decorations..."]]--
-	createWorld()
-	placeMobs(mobTypes.monsters.low.slime,10000)
-	placeMobs(mobTypes.animals.low.rat,5000)
-	addDecor(80000)
-	status = "Inventing Magic..."
 	makeMagic()
-	status = "Placing Items..."
-	placeItems(10000,itemTypes.weapons.onehand.swords.shortSword)
 	screen = "main"
 	popup = 0,0,0,0,{255,255,255}
 end
@@ -220,18 +203,14 @@ function createWorld()
 			setTerrainType(i,j,terrainTypes.floors.dirt)
 		end
 	end
-	placeTown()
-	placeCave()
-	--placeDirt()
-	growSeeds()
-	placeWalls()
-	growWalls()
+	step = 2
 end
 
 function placeTown()
 	setTerrainType(512,512,terrainTypes.floors.cobble)
 	townX = 512
 	townY = 512
+	step = 3
 end
 
 function placeCave()
@@ -248,6 +227,7 @@ function placeCave()
 			caveY = y
 		end
 	end
+	step = 4
 end
 
 function placeDirt()
@@ -263,28 +243,26 @@ function placeDirt()
 end
 
 function growSeeds()
-	for i = 1,30 do
-		for j = 19,1003 do
-			for k = 19,1003 do
-				local terry = getTerrain(j,k)
-				if string.match(terry.name,"floor") or string.match(terry.name,"Water") then
-					local dir = math.random(4)
-					local x = j
-					local y = k
-					if dir == 1 then
-						x = x + 1
-					elseif dir == 2 then
-						x = x - 1
-					elseif dir == 3 then
-						y = y + 1
-					elseif dir == 4 then
-						y = y - 1
-					end
-					if string.match(terry.name,"Rock") then
-						setTerrainType(x,y,terrainTypes.floors.rock)
-					elseif string.match(terry.name,"Cobble") then
-						setTerrainType(x,y,terrainTypes.floors.cobble)
-					end
+	for j = 19,1003 do
+		for k = 19,1003 do
+			local terry = getTerrain(j,k)
+			if string.match(terry.name,"floor") or string.match(terry.name,"Water") then
+				local dir = math.random(1,4)
+				local x = j
+				local y = k
+				if dir == 1 then
+					x = x + 1
+				elseif dir == 2 then
+					x = x - 1
+				elseif dir == 3 then
+					y = y + 1
+				elseif dir == 4 then
+					y = y - 1
+				end
+				if string.match(terry.name,"Rock") then
+					setTerrainType(x,y,terrainTypes.floors.rock)
+				elseif string.match(terry.name,"Cobble") then
+					setTerrainType(x,y,terrainTypes.floors.cobble)
 				end
 			end
 		end
@@ -305,6 +283,7 @@ function placeWalls()
 			setTerrainType(x,y,terrainTypes.walls.rock)
 		end
 	end
+	step = 6
 end
 
 function growWalls()
@@ -334,6 +313,7 @@ function growWalls()
 			end
 		end
 	end
+	step = 7
 end
 
 function addDecor(num)
@@ -352,6 +332,14 @@ function addDecor(num)
 			if string.match(terry.name,"Dirt") then
 					terry.gfx = "~"
 			end
+		end
+	end
+end
+
+function clearPlayer()
+	for i = -2,2 do
+		for j = -2,2 do
+			setTerrainType(player.posX+i,player.posY+j,terrainTypes.floors.cobble)
 		end
 	end
 end

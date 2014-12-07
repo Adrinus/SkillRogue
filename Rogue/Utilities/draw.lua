@@ -1,8 +1,12 @@
 function drawWorld()
+	local screenTop = 28
+	local screenHeight = math.floor(((winHeight-(28+screenTop))/14)-1)
+	local screenLeft = 14
+	local screenWidth = math.floor(((winWidth-(14-screenLeft))/14)-1)
 	for i = 14,winWidth-28,14 do
 		for j = 28,winHeight-56,14 do
-			local x = ((i/14)-1) + xOff
-			local y = ((j/14)-1) + yOff
+			local x = ((i/14)-1) + xOff-math.floor(screenWidth/2)
+			local y = ((j/14)-1) + yOff-math.floor(screenHeight/2)
 			local terry = getTerrain(x,y)
 			love.graphics.setColor(getTerrainBg(x,y))
 			love.graphics.rectangle("fill",i,j,14,14)
@@ -17,6 +21,10 @@ function drawWorld()
 				local gfx = items[x][y].gfx
 				love.graphics.setColor(getItemTc(x,y))
 				love.graphics.print(gfx,i,j)
+			end
+			if player.posX == x and player.posY == y then
+				love.graphics.setColor(255,255,255)
+				love.graphics.print("@",i,j)
 			end
 		end
 	end
