@@ -1,12 +1,20 @@
+
+function screen2World(x,y)
+	local sX = math.floor((x/14)-2) + (xOff-math.floor((((winWidth-28)/14)-1)/2))
+	local sY = math.floor((y/14)-1) + (yOff-math.floor((((winHeight-56)/14)-1)/2)) 
+	return sX,sY
+end
+
+function world2Screen(x,y)
+	local wX = ((x/14)-1)+ xOff-math.floor(screenWidth/2)
+	local wY = ((y/14)-1)+ yOff-math.floor(screenHeight/2)
+	return wX,wY
+end
+
 function drawWorld()
-	local screenTop = 28
-	local screenHeight = math.floor(((winHeight-(28+screenTop))/14)-1)
-	local screenLeft = 14
-	local screenWidth = math.floor(((winWidth-(14-screenLeft))/14)-1)
 	for i = 14,winWidth-28,14 do
 		for j = 28,winHeight-56,14 do
-			local x = ((i/14)-1) + xOff-math.floor(screenWidth/2)
-			local y = ((j/14)-1) + yOff-math.floor(screenHeight/2)
+			local x,y = world2Screen(i,j)
 			local terry = getTerrain(x,y)
 			love.graphics.setColor(getTerrainBg(x,y))
 			love.graphics.rectangle("fill",i,j,14,14)
@@ -67,13 +75,16 @@ function getRGB(bgtc)
 	return R,G,B
 end
 
+
 function drawBubbles()
 	if #bubbles > 0 then
 		for i = 1,#bubbles do
-			local bubX = bubbles[i].x
-			local bubY = bubbles[i].y
+			local bubX = ((bubbles[i].x - xOff+1)*14+((winWidth-28)/2))
+			local bubY = ((bubbles[i].y - yOff+2)*14+((winHeight-56)/2))
 			local width = bubbles[i].wid
 			local txt = bubbles[i].text
+			bubX = bubX - math.floor(width/2)
+			bubY = bubY - 21
 			love.graphics.setColor(getRGB(bubbles[i].bg))
 			love.graphics.rectangle("fill",bubX,bubY,width,14)
 			love.graphics.setColor(getRGB(bubbles[i].tc))

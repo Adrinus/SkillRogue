@@ -12,6 +12,10 @@ function love.load()
 	desktopWidth, desktopHeight = love.window.getDesktopDimensions(1)
 	love.window.setMode((math.floor(desktopWidth/14)*14)-14,(math.floor((desktopHeight-60)/14)*14)-14)
 	winWidth, winHeight = love.window.getMode()
+	screenTop = 28
+	screenHeight = math.floor(((winHeight-(28+screenTop))/14)-1)
+	screenLeft = 14
+	screenWidth = math.floor(((winWidth-(14-screenLeft))/14)-1)
 	screen = "splash"
 	tick = 0
 	ticks = 0
@@ -91,22 +95,21 @@ end
 function love.mousepressed(x,y,key)
 	if screen == "main" then
 		if key == "l" and x > 14 and x < winWidth-14 and y > 28 and y < winHeight-56 then
-			local tileX = math.floor((x/14)-2) + (xOff-math.floor((((winWidth-28)/14)-1)/2))
-			local tileY = math.floor((y/14)-1) + (yOff-math.floor((((winHeight-56)/14)-1)/2))
+			local tileX,tileY = screen2World(x,y)
 			if interact == "smash" then
 				if math.sqrt((player.posX-tileX)^2) < 2 and math.sqrt((player.posY-tileY)^2) < 2 then
 					local terry = terrain[tileX][tileY]
 					if terry.name == "Wooden wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.cobble)
-						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
+						newBubble(tileX,tileY,"Smash!",{100,100,100},{200,0,0})
 					elseif terry.name == "Rock wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.rock)
-						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
+						newBubble(tileX,tileY,"Smash!",{100,100,100},{200,0,0})
 					elseif terry.name == "Forest wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.dirt)
-						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
+						newBubble(tileX,tileY,"Smash!",{100,100,100},{200,0,0})
 					else
-						newBubble(x,y,"Can't Smash",{100,100,100},{0,0,0})
+						newBubble(tileX,tileY,"Can't Smash",{100,100,100},{0,0,0})
 					end
 				end
 			end
@@ -137,7 +140,13 @@ function love.keypressed(key,isrepeat)
 				xOff = player.posX
 			end
 		elseif key == "s" then
-			interact = "smash"
+			if interact == "smash" then
+				interact = "examine"
+				newBubble(player.posX,player.posY,"Examining",{200,200,200},{0,0,150})
+			else
+				interact = "smash"
+				newBubble(player.posX,player.posY,"Smashing",{200,200,200},{150,0,0})
+			end
 		end
 	end
 	if screen == "splash" then

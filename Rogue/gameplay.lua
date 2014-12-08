@@ -198,7 +198,7 @@ function bubbleFloat()
 		for i = 1,#bubbles do
 			if bubbles[i] ~= nil then
 				if bubbles[i].y > 28 then
-					bubbles[i].y = bubbles[i].y - 14
+					bubbles[i].y = bubbles[i].y - 1
 				else
 					bubbles[i] = nil
 					table.remove(bubbles,i)
@@ -443,12 +443,12 @@ end
 function newBubble(x,y,txt,background,textcolor)
 	local font = love.graphics.getFont( )
 	local pixelWidth = font:getWidth(txt)
-	local bubX = x-math.floor(pixelWidth/2)
-	local bubY = y-14
+	local bubX = x
+	local bubY = y
 	local bubble = {}
 	bubble.x = bubX
 	bubble.y = bubY
-	bubble.wid = font:getWidth(txt)
+	bubble.wid = pixelWidth
 	bubble.text = txt
 	bubble.bg = background or {200,200,200}
 	bubble.tc = textcolor or {0,0,0}
