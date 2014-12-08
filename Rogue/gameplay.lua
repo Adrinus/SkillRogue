@@ -32,6 +32,7 @@ function startup()
 	makeMagic()
 	screen = "main"
 	popup = 0,0,0,0,{255,255,255}
+	bubbles = {}
 end
 
 function getMob(x,y)
@@ -192,6 +193,21 @@ function update()
 	end
 end
 
+function bubbleFloat()
+	if #bubbles > 0 then
+		for i = 1,#bubbles do
+			if bubbles[i] ~= nil then
+				if bubbles[i].y > 28 then
+					bubbles[i].y = bubbles[i].y - 14
+				else
+					bubbles[i] = nil
+					table.remove(bubbles,i)
+				end
+			end
+		end
+	end
+end
+
 function distance(x,y,i,j)
 	local dist = math.sqrt(((x-i)^2)+((y-j)^2))
 	return dist
@@ -214,17 +230,37 @@ function placeTown()
 end
 
 function placeCave()
+	caves = {}
 	caveX = 0
 	caveY = 0
 	local placed = 0
 	while placed < 20 do
 		local x = math.random(50,974)
 		local y = math.random(50,974)
-		if distance(x,y,townX,townY) > 100 then
-			setTerrainType(x,y,terrainTypes.floors.rock)
-			placed = placed + 1
-			caveX = x
-			caveY = y
+		if distance(x,y,townX,townY) > 200 then
+			if #caves > 0 then
+				local near = 0
+				local num = 0
+				for i = 1,#caves do
+					if distance(x,y,caves[i].x,caves[i].y) < 200 then
+						near = 1
+					end
+					num = i
+				end
+				if near == 0 then
+					setTerrainType(x,y,terrainTypes.floors.rock)
+					placed = placed + 1
+					caves[num] = {}
+					caves[num].x = x
+					caves[num].y = y
+				end
+			else
+				setTerrainType(x,y,terrainTypes.floors.rock)
+				placed = placed + 1
+				caves[1] = {}
+				caves[1].x = x
+				caves[1].y = y
+			end
 		end
 	end
 	step = 4
@@ -261,8 +297,31 @@ function growSeeds()
 				end
 				if string.match(terry.name,"Rock") then
 					setTerrainType(x,y,terrainTypes.floors.rock)
-				elseif string.match(terry.name,"Cobble") then
+				end
+				if string.match(terry.name,"Cobble") then
 					setTerrainType(x,y,terrainTypes.floors.cobble)
+				end
+			end
+		end
+	end
+	for i = 1,2 do
+		for j = 19,1003 do
+			for k = 19,1003 do
+				local terry = getTerrain(j,k)
+				if string.match(terry.name,"Rock floor")then
+					local dir = math.random(1,4)
+					local x = j
+					local y = k
+					if dir == 1 then
+						x = x + 1
+					elseif dir == 2 then
+						x = x - 1
+					elseif dir == 3 then
+						y = y + 1
+					elseif dir == 4 then
+						y = y - 1
+					end
+					setTerrainType(x,y,terrainTypes.floors.rock)
 				end
 			end
 		end
@@ -279,7 +338,13 @@ function placeWalls()
 			setTerrainType(x,y,terrainTypes.walls.wood)
 		elseif terry.name == "Dirt floor" then
 			setTerrainType(x,y,terrainTypes.walls.tree)
-		elseif terry.name == "Rock floor" then
+		end
+	end
+	for j = 1,20000 do
+		local x = math.random(19,1003)
+		local y = math.random(19,1003)
+		local terry = getTerrain(x,y)
+		if terry.name == "Rock floor" then
 			setTerrainType(x,y,terrainTypes.walls.rock)
 		end
 	end
@@ -353,6 +418,7 @@ function placeItems(num,itemType)
 		if item == nil and terrain[x][y].pass and terrain[x][y].name ~= "Cobble floor" then
 			items[x][y] = {}
 			items[x][y].name = itemType.name or ""
+			items[x][y].equipable = itemType.equipable or "none"
 			items[x][y].weight = itemType.weight or 0
 			items[x][y].desc = itemType.desc or ""
 			items[x][y].dmg = itemType.dmg or {0,0}
@@ -372,4 +438,19 @@ function placeItems(num,itemType)
 			items[x][y].questID = itemType.questID or nil
 		end
 	end
+end
+
+function newBubble(x,y,txt,background,textcolor)
+	local font = love.graphics.getFont( )
+	local pixelWidth = font:getWidth(txt)
+	local bubX = x-math.floor(pixelWidth/2)
+	local bubY = y-14
+	local bubble = {}
+	bubble.x = bubX
+	bubble.y = bubY
+	bubble.wid = font:getWidth(txt)
+	bubble.text = txt
+	bubble.bg = background or {200,200,200}
+	bubble.tc = textcolor or {0,0,0}
+	table.insert(bubbles,bubble)
 end

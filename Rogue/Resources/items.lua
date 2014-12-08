@@ -1,105 +1,85 @@
 {
 	["weapons"]={
-		["onehand"]={
-			["swords"]={
-				["shortSword"]={
-					["name"]="Short Sword",
-					["dmg"]={2,6},
-					["rng"]=1,
-					["accMod"]=10,
-					["durability"]=100,
-					["prefix"]="",
-					["suffix"]="",
-					["tc"]={150,150,0},
-					["gfx"]="/",
-					["pos"]={0,0},
-					["desc"]="A short blade.",
-					["weight"]=2,
-				},
+		["swords"]={
+			["shortSword"]={
+				["name"]="Short Sword",
+				["dmg"]={2,6},
+				["rng"]=1,
+				["accMod"]=10,
+				["durability"]=100,
+				["prefix"]="",
+				["suffix"]="",
+				["tc"]={150,150,0},
+				["gfx"]="/",
+				["pos"]={0,0},
+				["desc"]="A short blade.",
+				["weight"]=2,
+				["hands"]=1,
 			},
 		},
-		["twohand"]={
-			["bows"]={
-				["shortBow"]={
-					["name"]="Short Bow",
-					["dmg"]={2,12},
-					["rng"]=2,
-					["accMod"]=5,
-					["durability"]=100,
-					["prefix"]="",
-					["suffix"]="",
-					["tc"]={150,150,0},
-					["gfx"]="{",
-					["pos"]={0,0},
-					["desc"]="A short, lightweight bow.",
-					["weight"]=1,
-				},
+		["bows"]={
+			["shortBow"]={
+				["name"]="Short Bow",
+				["dmg"]={2,12},
+				["rng"]=2,
+				["accMod"]=5,
+				["durability"]=100,
+				["prefix"]="",
+				["suffix"]="",
+				["tc"]={150,150,0},
+				["gfx"]="{",
+				["pos"]={0,0},
+				["desc"]="A short, lightweight bow.",
+				["weight"]=1,
+				["hands"]=1,
 			},
 		},
 	},
 	["armor"]={
-		["head"]={
-			["helms"]={
-				["leather"]={
-					["name"]="Leather Helm",
-					["ac"]=2,
-					["weight"]=1,
-					["prefix"]="",
-					["suffix"]="",
-					["durability"]=100,
-					["tc"]={150,150,0},
-					["gfx"]="n",
-					["pos"]={0,0},
-					["desc"]="A simple helmet made from hardened leather",
-					["slots"]=0,
-					["weight"]=1,
-				},
+		["leather"]={
+			[1]={
+				["name"]="Leather Helm",
+				["equipable"]="head",
+				["ac"]=2,
+				["weight"]=1,
+				["prefix"]="",
+				["suffix"]="",
+				["durability"]=100,
+				["tc"]={150,150,0},
+				["gfx"]="n",
+				["pos"]={0,0},
+				["desc"]="A simple helmet made from hardened leather",
+				["slots"]=0,
+				["weight"]=1,
 			},
-		},
-		["hands"]={
-			["gauntlets"]={
-				["leather"]={
-					["name"]="Leather Gauntlets",
-					["ac"]=1,
-					["weight"]=0.5,
-					["prefix"]="",
-					["suffix"]="",
-					["durability"]=100,
-					["tc"]={150,150,0},
-					["gfx"]="%",
-					["pos"]={0,0},
-					["desc"]="Simple leather armor for the hands and arms.",
-					["slots"]=0,
-					["weight"]=0.5,
-				},		
+			[2]={
+				["name"]="Leather Gauntlets",
+				["equipable"]="hands",
+				["ac"]=1,
+				["weight"]=0.5,
+				["prefix"]="",
+				["suffix"]="",
+				["durability"]=100,
+				["tc"]={150,150,0},
+				["gfx"]="%",
+				["pos"]={0,0},
+				["desc"]="Simple leather armor for the hands and arms.",
+				["slots"]=0,
+				["weight"]=0.5,
 			},
-		},
-		["feet"]={
-			
-		},
-		["back"]={
-			
-		},
-		["chest"]={
-			
-		},
-		["legs"]={
-			
 		},
 	},
 	["items"]={
 		["consumable"]={
-			["food"]={
-				["bread"]={
-					["name"]="Loaf of Bread",
-					["effect"]="heal",
-					["magnitude"]=5,
-					["tc"]={150,150,0},
-					["gfx"]="B",
-					["pos"]={0,0},
-					["desc"]="Doughy goodness.",
-					["weight"]=0.2,
-				},
+			["bread"]={
+				["name"]="Loaf of Bread",
+				["effect"]="heal",
+				["magnitude"]=5,
+				["tc"]={150,150,0},
+				["gfx"]="B",
+				["pos"]={0,0},
+				["desc"]="Doughy goodness.",
+				["weight"]=0.2,
 			},
 		},
 		["tool"]={
@@ -132,6 +112,14 @@
 					["4"]={"","","","","","","","","","","","","","","","","","","",""},
 					["5"]={"lol","","","","","","","","","","","","","","","","","","",""},
 				},
+			},
+			["pick"]={
+				["name"]="Digging Tool",
+				["desc"]="All-in-one Wall-Smasher",
+				["effect"]="smash",
+				["weight"]=0.1,
+				["tc"]={80,80,50},
+				["gfx"]="#",
 			},
 		},
 		["reagent"]={

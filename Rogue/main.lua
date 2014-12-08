@@ -29,6 +29,9 @@ function love.update(dt)
 	if tick < 1 then
 		tick = tick + dt
 		ticks = ticks + 1
+		if screen == "main" then
+			bubbleFloat()
+		end
 	else
 		tick = tick - 1
 		tps = ticks
@@ -58,6 +61,7 @@ function love.update(dt)
 			else
 				step = 5
 				status = "Placing Barriers"
+				growcycles = 0
 			end
 		elseif step == 5 then
 			placeWalls()
@@ -69,15 +73,18 @@ function love.update(dt)
 			placeMobs(mobTypes.monsters.low.slime,10000)
 			placeMobs(mobTypes.animals.low.rat,5000)
 			addDecor(80000)
-			placeItems(10000,itemTypes.weapons.onehand.swords.shortSword)
+			placeItems(10000,itemTypes.weapons.swords.shortSword)
 			clearPlayer()
 			screen = "main"
+			step = 0
 		end
 	end
+	--Animations tick here
 	if animTick < 2 then
 		animTick = animTick + dt
 	else
 		animTick = animTick - 2
+		
 	end
 end
 
@@ -91,10 +98,15 @@ function love.mousepressed(x,y,key)
 					local terry = terrain[tileX][tileY]
 					if terry.name == "Wooden wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.cobble)
+						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
 					elseif terry.name == "Rock wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.rock)
+						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
 					elseif terry.name == "Forest wall" then
 						setTerrainType(tileX,tileY,terrainTypes.floors.dirt)
+						newBubble(x,y,"Smash!",{100,100,100},{200,0,0})
+					else
+						newBubble(x,y,"Can't Smash",{100,100,100},{0,0,0})
 					end
 				end
 			end
@@ -142,6 +154,7 @@ function love.draw()
 	end
 	if screen == "main" then
 		drawWorld()
+		drawBubbles()
 		drawHud()
 	end
 	if screen == "loading" then

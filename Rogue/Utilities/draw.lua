@@ -67,6 +67,21 @@ function getRGB(bgtc)
 	return R,G,B
 end
 
+function drawBubbles()
+	if #bubbles > 0 then
+		for i = 1,#bubbles do
+			local bubX = bubbles[i].x
+			local bubY = bubbles[i].y
+			local width = bubbles[i].wid
+			local txt = bubbles[i].text
+			love.graphics.setColor(getRGB(bubbles[i].bg))
+			love.graphics.rectangle("fill",bubX,bubY,width,14)
+			love.graphics.setColor(getRGB(bubbles[i].tc))
+			love.graphics.print(txt,bubX,bubY)
+		end
+	end
+end
+
 function drawPopup(x,y,w,h,bg)
 	love.graphics.setColor(getRGB(bg))
 	love.graphics.rectangle("fill",x,y,w,h)
